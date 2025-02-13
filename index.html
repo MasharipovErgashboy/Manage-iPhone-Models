@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>iPhone Models</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #007bff;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 2px solid #0056b3;
+    }
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      background-color: white;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .input-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .input-field {
+      padding: 12px;
+      margin: 5px 0;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    .input-field:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+    .button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-size: 14px;
+    }
+    .button:hover {
+      background-color: #0056b3;
+    }
+    .button:focus {
+      outline: none;
+    }
+    .card {
+      background-color: #ffffff;
+      border-radius: 12px;
+      margin: 15px 0;
+      padding: 25px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card-info {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .card-info h3 {
+      margin: 0;
+      font-size: 20px;
+      color: #333;
+      font-weight: bold;
+    }
+    .card-info p {
+      font-size: 14px;
+      color: #555;
+      margin: 5px 0;
+    }
+    .card-actions {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+    }
+    .card-actions button {
+      padding: 10px 20px;
+      font-size: 14px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .edit-btn {
+      background-color: #28a745;
+      color: white;
+      border: none;
+    }
+    .delete-btn {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+    }
+    .edit-btn:hover {
+      background-color: #218838;
+    }
+    .delete-btn:hover {
+      background-color: #c82333;
+    }
+    .model-info {
+      margin-top: 20px;
+      background-color: #e9ecef;
+      padding: 15px;
+      border-radius: 8px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <a
+      href="file:///C:/Users/user/OneDrive/Ishchi%20stol/Cowork/IT/Virtual%20filio/html/index.html#portfolio"
+      style="position: absolute; top: 10px; left: 10px"
+    >
+      <img src="left-arrow.png" alt="Back" style="width: 50px; height: 50px" />
+    </a>
+  <header>
+    <h1>iPhone Models</h1>
+  </header>
+
+  <div class="container">
+    <div class="input-container">
+      <input type="text" id="modelName" class="input-field" placeholder="Model Name" />
+      <input type="text" id="processor" class="input-field" placeholder="Processor" />
+      <input type="text" id="displayResolution" class="input-field" placeholder="Display Resolution" />
+      <input type="number" id="ram" class="input-field" placeholder="RAM (GB)" />
+      <input type="number" id="rom" class="input-field" placeholder="ROM (GB)" />
+      <button class="button" id="addPhoneButton">Add Phone</button>
+    </div>
+
+    <div id="phoneList"></div>
+
+    <div id="modelInfo" class="model-info">
+      <h3>Model Specifications</h3>
+      <p id="modelDetails"></p>
+    </div>
+  </div>
+
+  <script>
+    // IPhone class
+    class IPhone {
+      constructor(processor, displayResolution, ram, rom) {
+        this.processor = processor;
+        this.displayResolution = displayResolution;
+        this.ram = ram;
+        this.rom = rom;
+      }
+
+      setSpecifications() {
+        return `Processor: ${this.processor}, Display: ${this.displayResolution}, RAM: ${this.ram}GB, ROM: ${this.rom}GB`;
+      }
+    }
+
+    // IModel interface
+    class IModel {
+      setModel() {
+        return '';
+      }
+    }
+
+    // Phone Model Class
+    class PhoneModel extends IModel {
+      constructor(modelName, processor, displayResolution, ram, rom) {
+        super();
+        this.modelName = modelName;
+        this.processor = processor;
+        this.displayResolution = displayResolution;
+        this.ram = ram;
+        this.rom = rom;
+      }
+
+      setModel() {
+        return `Model: ${this.modelName}, Specifications: ${new IPhone(this.processor, this.displayResolution, this.ram, this.rom).setSpecifications()}`;
+      }
+    }
+
+    const phoneList = [];
+    const phoneListContainer = document.getElementById('phoneList');
+
+    // Add Phone functionality
+    document.getElementById('addPhoneButton').addEventListener('click', function() {
+      const modelName = document.getElementById('modelName').value;
+      const processor = document.getElementById('processor').value;
+      const displayResolution = document.getElementById('displayResolution').value;
+      const ram = document.getElementById('ram').value;
+      const rom = document.getElementById('rom').value;
+
+      if (modelName && processor && displayResolution && ram && rom) {
+        const newPhone = new PhoneModel(modelName, processor, displayResolution, ram, rom);
+        phoneList.push(newPhone);
+        renderPhoneList();
+        clearInputs();
+      } else {
+        alert('Please fill in all fields.');
+      }
+    });
+
+    // Render phone list
+    function renderPhoneList() {
+      phoneListContainer.innerHTML = '';
+      phoneList.forEach((phone, index) => {
+        const phoneCard = document.createElement('div');
+        phoneCard.classList.add('card');
+
+        const phoneInfo = document.createElement('div');
+        phoneInfo.classList.add('card-info');
+        phoneInfo.innerHTML = `<h3>${phone.modelName}</h3><p>${phone.setModel()}</p>`;
+
+        const actions = document.createElement('div');
+        actions.classList.add('card-actions');
+        actions.innerHTML = `
+          <button class="edit-btn" onclick="editPhone(${index})">Edit</button>
+          <button class="delete-btn" onclick="deletePhone(${index})">Delete</button>
+        `;
+
+        phoneCard.appendChild(phoneInfo);
+        phoneCard.appendChild(actions);
+        phoneListContainer.appendChild(phoneCard);
+      });
+    }
+
+    // Delete Phone functionality
+    function deletePhone(index) {
+      phoneList.splice(index, 1);
+      renderPhoneList();
+    }
+
+    // Edit Phone functionality
+    function editPhone(index) {
+      const phone = phoneList[index];
+      document.getElementById('modelName').value = phone.modelName;
+      document.getElementById('processor').value = phone.processor;
+      document.getElementById('displayResolution').value = phone.displayResolution;
+      document.getElementById('ram').value = phone.ram;
+      document.getElementById('rom').value = phone.rom;
+
+      // Remove the phone from the list so it can be updated
+      deletePhone(index);
+    }
+
+    // Clear input fields
+    function clearInputs() {
+      document.getElementById('modelName').value = '';
+      document.getElementById('processor').value = '';
+      document.getElementById('displayResolution').value = '';
+      document.getElementById('ram').value = '';
+      document.getElementById('rom').value = '';
+    }
+  </script>
+
+</body>
+</html>
